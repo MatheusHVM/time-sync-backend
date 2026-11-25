@@ -24,13 +24,19 @@ Configure as variáveis no ambiente da JVM antes de iniciar. Use `jdbc:postgresq
 | `SPRING_MAIL_USERNAME` | Conta usada na autenticação SMTP |
 | `SPRING_MAIL_PASSWORD` | Credencial SMTP |
 
-O Spring Boot aceita as variáveis `SPRING_*` acima como substituições da configuração. A propriedade JWT já consulta `JWT_SECRET`.
+Defina as variáveis acima no ambiente do processo antes de iniciar a API. O banco, a autenticação JWT e o SMTP não têm credenciais padrão. Use credenciais próprias para desenvolvimento e mantenha os valores fora do Git. Os parâmetros do servidor SMTP podem ser ajustados com `SPRING_MAIL_HOST` e `SPRING_MAIL_PORT`.
 
 ```sh
 ./mvnw spring-boot:run
 ```
 
 No Windows, use `.\mvnw.cmd spring-boot:run`. O frontend espera a API em `http://localhost:8080`.
+
+## Migrações e testes
+
+O Flyway aplica automaticamente as migrações ao iniciar. Elas incluem contas de demonstração, inclusive uma conta administrativa, além de empresas, serviços e agendamentos de exemplo. Use um banco descartável para desenvolvimento e testes. Antes de usar a aplicação em um ambiente compartilhado, revise o provisionamento dessas contas e desative ou redefina as credenciais de demonstração. Preserve as migrações já aplicadas para manter os checksums do Flyway.
+
+Execute `./mvnw test` (Windows: `.\mvnw.cmd test`) com a mesma configuração de ambiente apontando para o banco de teste. O teste de contexto Spring inicializa a aplicação e aplica as migrações nesse banco.
 
 ## Tecnologias
 
